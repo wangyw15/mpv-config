@@ -1,3 +1,8 @@
+# ignore fonts and cache
 cache/
-fonts/
+fonts/*
 watch_later/
+
+# except for usoc fonts
+!fonts/uosc_icons.otf
+!fonts/uosc_textures.ttf
