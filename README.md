@@ -1,5 +1,14 @@
 # mpv-config
 
+# Features
+
+- Customized usoc menu
+- Easy-to-use video enhancement
+  - Integrate RTX Video Super Resolution, SVP, Anime4K, Anime4KCPP
+  - Auto decide upscaling factor
+  - Toggle SVP when video is playing
+  - Make SVP compatible with other video filters
+
 # Requirements
 
 ## Script
