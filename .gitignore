@@ -1,0 +1,8 @@
+cache/
+fonts/
+scripts/**
+shaders/
+watch_later/
+*.log
+
+!scripts/*.js
