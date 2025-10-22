@@ -1,27 +1,8 @@
 var config = {
     "svp-ipc": "mpvpipe",
+    "restore-filter-wait-time": 3,
 };
 mp.options.read_options(config);
-
-function getFilters() {
-    var filters = [];
-    mp.get_property_native("vf").forEach(function(filter) {
-        if (filter.label != "svp") {
-            filters.push(filter);
-        }
-    });
-    return filters;
-}
-
-function removeFilters() {
-    var filters = [];
-    mp.get_property_native("vf").forEach(function(filter) {
-        if (filter.label == "svp") {
-            filters.push(filter);
-        }
-    });
-    mp.set_property_native("vf", filters);
-}
 
 function checkSVPFilter() {
     var result = false;
@@ -34,22 +15,21 @@ function checkSVPFilter() {
 }
 
 mp.add_key_binding(null, "toggle", function() {
-    // SVP will delete other video filters when IPC connected
-    var vsFilterBackup = getFilters();
-    removeFilters();
-
-    if (mp.get_property("input-ipc-server") == config["svp-ipc"]) {
-        mp.command("vf toggle @svp");
+    if (mp.get_property("input-ipc-server") === config["svp-ipc"] && checkSVPFilter()) {
+        mp.command("no-osd vf toggle @svp");
     }
     else {
-        mp.set_property("input-ipc-server", config["svp-ipc"]);
-        mp.command("vf clr ''");
-    }
+        // SVP will delete other video filters when IPC connected
+        var backupFilters = mp.get_property_native("vf");
 
-    var restoreFilter = setInterval(function() {
-        if (checkSVPFilter()) {
-            mp.set_property_native("vf", mp.get_property_native("vf").concat(vsFilterBackup))
-            clearInterval(restoreFilter);
-        }
-    }, 100);
+        mp.command("no-osd vf clr ''");
+        mp.set_property("input-ipc-server", config["svp-ipc"]);
+
+        var restoreFilter = setInterval(function() {
+            if (checkSVPFilter()) {
+                mp.set_property_native("vf", mp.get_property_native("vf").concat(backupFilters));
+                clearInterval(restoreFilter);
+            }
+        }, config["restore-filter-wait-time"] * 1000);
+    }
 });
