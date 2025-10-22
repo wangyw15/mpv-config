@@ -9,12 +9,12 @@ var otherFilters = [];
 
 function removeUpscaleFilters(backup) {
     mp.get_property_native("vf").forEach(function(filter) {
-        if (filter.name == "d3d11vpp" && filter.params["scaling-mode"] == "nvidia") {
+        if (filter.name === "d3d11vpp" && filter.params["scaling-mode"] === "nvidia") {
             if (backup) {
                 nvidiaFilters.push(filter);
             }
         }
-        else if (filter.name == "vapoursynth" && filter.params.file.indexOf("anime4kcpp.py") != -1) {
+        else if (filter.name === "vapoursynth" && filter.params.file.indexOf("anime4kcpp.py") !== -1) {
             if (backup) {
                 anime4kcppFilters.push(filter);
             }
@@ -57,6 +57,20 @@ function updateUpscaleFilters() {
     anime4kcppFilters.forEach(function(filter) {
         var modelName = filter.params["user-data"].split(";")[0];
         filter.params["user-data"] = modelName + ";" + ratio.toString();
+    });
+
+    // restore enable status
+    mp.get_property_native("vf").forEach(function(original_filter) {
+        nvidiaFilters.forEach(function(filter) {
+            if (original_filter.label === filter.label) {
+                filter.enabled = original_filter.enabled;
+            }
+        });
+        anime4kcppFilters.forEach(function(filter) {
+            if (original_filter.label === filter.label) {
+                filter.enabled = original_filter.enabled;
+            }
+        });
     });
 
     removeUpscaleFilters(false);
