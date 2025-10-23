@@ -11,6 +11,8 @@
 
 # Requirements
 
+> The configuration is specified for **Windows**
+
 ## Script
 
 - [uosc](https://github.com/tomasklaen/uosc)
