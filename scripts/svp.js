@@ -7,6 +7,10 @@ mp.options.read_options(config);
 
 var SVP_IPC_SERVER = "mpvpipe";
 
+/**
+ * Check if SVP has added video filter
+ * @returns if SVP has added video filter
+ */
 function checkSVPFilter() {
     var result = false;
     mp.get_property_native("vf").forEach(function(filter) {

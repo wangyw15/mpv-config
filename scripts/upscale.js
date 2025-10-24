@@ -7,6 +7,10 @@ var nvidiaFilters = [];
 var anime4kcppFilters = [];
 var otherFilters = [];
 
+/**
+ * Remove upscale filters
+ * @param {boolean} backup copy upscale filters to global variables
+ */
 function removeUpscaleFilters(backup) {
     mp.get_property_native("vf").forEach(function(filter) {
         if (filter.name === "d3d11vpp" && filter.params["scaling-mode"] === "nvidia") {
@@ -25,8 +29,10 @@ function removeUpscaleFilters(backup) {
     });
     mp.set_property_native("vf", otherFilters);
 }
-removeUpscaleFilters(true);
 
+/**
+ * Update scale factors in upscale filters
+ */
 function updateUpscaleFilters() {
     var video_params = mp.get_property_native("video-params");
     var viewport_width = mp.get_property_native("display-width");
@@ -81,6 +87,7 @@ function updateUpscaleFilters() {
         );
 }
 
+removeUpscaleFilters(true);
 mp.register_event("file-loaded", updateUpscaleFilters);
 if (config["update-on-window-resize"]) {
     mp.observe_property("osd-width", "number", updateUpscaleFilters);
