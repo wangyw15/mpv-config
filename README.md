@@ -22,6 +22,7 @@
 
 - [Anime4K](https://github.com/bloc97/Anime4K)
 - [Anime4KCPP](https://github.com/TianZerL/Anime4KCPP)
+- [ArtCNN](https://github.com/Artoriuz/ArtCNN)
 - [VapourSynth](https://github.com/vapoursynth/vapoursynth) (required by SVP and Anime4KCPP)
 - [SVP](https://www.svp-team.com/)
 
