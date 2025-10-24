@@ -41,7 +41,7 @@ function updateUpscaleFilters() {
             viewport_height = height;
         }
     }
-    if (viewport_width === undefined || viewport_height === undefined) {
+    if (viewport_width === undefined || viewport_height === undefined || video_params === undefined) {
         return;
     }
 
